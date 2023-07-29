@@ -10,4 +10,6 @@ If you have pygame installed, just run main.py, and it should work. If you are r
 
 ## Gameplay
 
-Catch all of the asteroids before they touch the ground. Use the left and right arrow keys to move the robot. Good luck!
+* Catch all of the asteroids before they touch the ground.
+* Use the left and right arrow keys to move the robot.
+* Good luck!
