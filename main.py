@@ -5,7 +5,7 @@ from pygame.sprite import Sprite, RenderUpdates, spritecollide
 class Robot(Sprite):
     def __init__(self, x, y):
         Sprite.__init__(self)
-        self.image = pygame.image.load("src/robot.png")
+        self.image = pygame.image.load("robot.png")
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -15,7 +15,7 @@ class Rock(Sprite):
         Sprite.__init__(self)
         self.x_velocity = x_velocity
         self.y_velocity = y_velocity
-        self.image = pygame.image.load("src/rock.png")
+        self.image = pygame.image.load("rock.png")
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -56,19 +56,19 @@ pygame.display.set_caption("Asteroids!")
 game_font = pygame.font.SysFont("Arial", 24)
 
 pygame.mixer.init()
-pygame.mixer.music.load("src/Chiptune(2).ogg")
+pygame.mixer.music.load("Chiptune(2).ogg")
 pygame.mixer.music.set_volume(0.6)
 pygame.mixer.music.play(-1)
 
-plink = pygame.mixer.Sound("src/plink.wav")
-impact = pygame.mixer.Sound("src/impact.wav")
+plink = pygame.mixer.Sound("plink.wav")
+impact = pygame.mixer.Sound("impact.wav")
 impact.set_volume(0.5)
-bonus = pygame.mixer.Sound("src/bonus.wav")
+bonus = pygame.mixer.Sound("bonus.wav")
 bonus.set_volume(0.4)
-rock_sprite = pygame.image.load("src/rock.png")
+rock_sprite = pygame.image.load("rock.png")
 rock_width = rock_sprite.get_width()
 rock_height = rock_sprite.get_height()
-robot_height = pygame.image.load("src/robot.png").get_height()
+robot_height = pygame.image.load("robot.png").get_height()
 robot = Robot(320, 480 - robot_height)
 
 players = RenderUpdates()
@@ -155,6 +155,13 @@ while True:
             pygame.mixer.music.stop()
             impact.play()
             break
+
+
+    if not game.game_over:
+        instructions = game_font.render("Collect the asteroids!", True, (255, 0, 0))
+        instructions_2 = game_font.render("Use left and right arrows", True, (255, 0, 0))
+        window.blit(instructions, (20, 10))
+        window.blit(instructions_2, (20, 40))
 
     if game.game_over:
         text = game_font.render("Game Over!", True, (255, 0, 0))
