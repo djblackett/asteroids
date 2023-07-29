@@ -2,6 +2,7 @@ import random
 import pygame
 from pygame.sprite import Sprite, RenderUpdates, spritecollide
 
+# Change this line if your IDE expects a relative path starting with "src"
 src = ""
 
 class Robot(Sprite):
@@ -57,16 +58,20 @@ window = pygame.display.set_mode((640, 480))
 pygame.display.set_caption("Asteroids!")
 game_font = pygame.font.SysFont("Arial", 24)
 
+# set background music
 pygame.mixer.init()
 pygame.mixer.music.load(src + "Chiptune(2).ogg")
 pygame.mixer.music.set_volume(0.6)
 pygame.mixer.music.play(-1)
 
+# set sound effects
 plink = pygame.mixer.Sound(src + "plink.wav")
 impact = pygame.mixer.Sound(src + "impact.wav")
 impact.set_volume(0.5)
 bonus = pygame.mixer.Sound(src + "bonus.wav")
 bonus.set_volume(0.4)
+
+# load and initialize sprites
 rock_sprite = pygame.image.load(src + "rock.png")
 rock_width = rock_sprite.get_width()
 rock_height = rock_sprite.get_height()
@@ -74,8 +79,8 @@ robot_height = pygame.image.load(src + "robot.png").get_height()
 robot = Robot(320, 480 - robot_height)
 
 players = RenderUpdates()
-
 players.add(robot)
+
 
 start_velocity = 1
 rocks = []
@@ -89,8 +94,7 @@ to_bottom = False
 
 game = Game()
 
-
-
+# main event loop
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -122,7 +126,7 @@ while True:
                 to_bottom = False
 
 
-
+    # event logic
     if to_right and robot.rect.x + robot.image.get_width() <= 640 and not game.game_over:
         robot.rect.x += 10
     if to_left and robot.rect.x >= 0 and not game.game_over:
@@ -133,12 +137,12 @@ while True:
         new_rock = Rock(x_coordinate, 0, 0, start_velocity)
         game.rock_group.add(new_rock)
 
+    # draw background and sprites
     window.fill((0, 0, 0))
-
-
     players.draw(window)
     game.rock_group.draw(window)
 
+    # check for collisions
     collision_list = spritecollide(robot, game.rock_group, True)
 
     for rock in collision_list:
@@ -148,7 +152,7 @@ while True:
         else:
             bonus.play()
 
-
+    # move rocks down or end game if they touch the ground
     for rock in game.rock_group:
         if not game.game_over:
             rock.increment_y(rock.y_velocity)
@@ -158,13 +162,14 @@ while True:
             impact.play()
             break
 
-
+    # text for instructions on how to play
     if not game.game_over:
         instructions = game_font.render("Collect the asteroids!", True, (255, 0, 0))
         instructions_2 = game_font.render("Use left and right arrows", True, (255, 0, 0))
         window.blit(instructions, (20, 10))
         window.blit(instructions_2, (20, 40))
 
+    # game over screen
     if game.game_over:
         text = game_font.render("Game Over!", True, (255, 0, 0))
         restart = game_font.render("Press F2 to start over", True, (255, 0, 0))
@@ -173,9 +178,10 @@ while True:
         game.rock_group.empty()
 
 
-    game.rock_group.update()
+    # number of points points text
     text = game_font.render("Points: " + str(game.points), True, (255, 0, 0))
     window.blit(text, (520, 10))
 
+    game.rock_group.update()
     pygame.display.flip()
     clock.tick(60)
