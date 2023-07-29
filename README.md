@@ -6,4 +6,4 @@ I added some chiptune background music I wrote a few years ago and some sound ef
 
 ## play
 
-if you have pygame installed, then just run main.py and it should work. If you are running it in an IDE such as VSCode,  
+If you have pygame installed, just run main.py, and it should work. If you are running it in an IDE such as VSCode, it might be expecting there to be a `src/` before the filename in the relative path. In this case, change the `src` variable at the top of `main.py` to equal `"src/"`
